@@ -4,51 +4,94 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
+    // Просмотр всех статей (доступно всем)
     public function index()
     {
-        return Article::with(['user', 'category'])->get();
+        $articles = Article::latest()->get();
+        return response()->json($articles);
     }
 
+    // Создание статьи (только админ)
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        if (!auth()->user()->is_admin) {
+            return response()->json(['error' => 'Только для администраторов'], 403);
+        }
+
+        $request->validate([
             'title' => 'required|string|max:255',
-            'content' => 'required|string'
+            'content' => 'required|string',
+            'image' => 'image|max:2048'
         ]);
 
-        $article = $request->user()->articles()->create($validated);
-        
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('articles', 'public');
+        }
+
+        $article = Article::create([
+            'title' => $request->title,
+            'content' => $request->content,
+            'image' => $imagePath,
+            'user_id' => auth()->id()
+        ]);
+
         return response()->json($article, 201);
     }
 
+    // Просмотр одной статьи (доступно всем)
     public function show(Article $article)
     {
-        return $article->load(['user', 'category']);
+        return response()->json($article);
     }
 
+    // Обновление статьи (только админ)
     public function update(Request $request, Article $article)
     {
-        $this->authorize('update', $article);
-        
-        $validated = $request->validate([
+        if (!auth()->user()->is_admin) {
+            return response()->json(['error' => 'Только для администраторов'], 403);
+        }
+
+        $request->validate([
             'title' => 'string|max:255',
-            'content' => 'string'
+            'content' => 'string',
+            'image' => 'nullable|image|max:2048'
         ]);
 
-        $article->update($validated);
-        
-        return $article;
+        if ($request->hasFile('image')) {
+            // Удаляем старое изображение
+            if ($article->image) {
+                Storage::delete($article->image);
+            }
+            $article->image = $request->file('image')->store('articles', 'public');
+        }
+
+        $article->update([
+            'title' => $request->title ?? $article->title,
+            'content' => $request->content ?? $article->content,
+            'image' => $article->image
+        ]);
+
+        return response()->json($article);
     }
 
+    // Удаление статьи (только админ)
     public function destroy(Article $article)
     {
-        $this->authorize('delete', $article);
-        
+        if (!auth()->user()->is_admin) {
+            return response()->json(['error' => 'Только для администраторов'], 403);
+        }
+
+        if ($article->image) {
+            Storage::delete($article->image);
+        }
+
         $article->delete();
-        
-        return response()->noContent();
+
+        return response()->json(['message' => 'Статья удалена']);
     }
 }
