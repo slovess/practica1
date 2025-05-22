@@ -8,10 +8,7 @@ use Illuminate\Support\Facades\Response;
 
 class CategoryController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['role:user']);
-    }
+    
 
     public function index()
     {

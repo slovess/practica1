@@ -9,11 +9,6 @@ use App\Http\Middleware;
 
 class TransactionController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['role:user']);
-    }
-
     public function index()
     {
         return Response::json(auth()->user()->transactions);
@@ -63,7 +58,7 @@ class TransactionController extends Controller
 
     private function authorizeOwnership(Transaction $transaction)
     {
-        if ($transaction->user_id !== auth()->id()) {
+        if ($transaction->user !== auth()->id()) {
             abort(403, 'Unauthorized');
         }
     }

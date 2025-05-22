@@ -4,24 +4,30 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use Inertia\Inertia;
 
 class ArticleController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['role:admin']);
-    }
 
     public function index()
     {
-        return Response::json(Article::all());
+        $articles = Article::all();
+
+        return Inertia::render('Article', [
+            'articles' => $articles,
+            'meta' => [
+                'title' => 'Все статьи',
+                'description' => 'Последние опубликованные статьи'
+            ]
+        ]);
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|string',
-            'content' => 'required|string',
+            'name' => 'required|string',
+            'abstract' => 'required|string',
+            'description' => 'required|string',
         ]);
 
         $article = Article::create($validated);

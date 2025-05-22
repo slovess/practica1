@@ -11,54 +11,56 @@ import { FinanceCard } from '../Components/FinanceCard';
 import { AnalyticsSection } from '../Components/AnalyticsSection';
 import { Footer } from '../Components/Footer';
 
-const MainPage = () => {
-  return (
-    <>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&display=swap"
-        rel="stylesheet"
-      />
-      
-      <Header />
-
-      <main className="main-container">
-
-
-        <section className="content-section">
-          <h1 className="main-title">ГЛАВНАЯ</h1>
-
-          <div className="cards-grid">
-            <FinanceCard
-              title="Где хранить деньги"
-              imageUrl={img}
-
+const MainPage = ( { article }) => {
+    return (
+        <>
+            <link
+                href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&display=swap"
+                rel="stylesheet"
             />
-            <FinanceCard
-              title="Валюты мира"
-              imageUrl={img1}
 
-            />
-            <FinanceCard
-              title="Дом или квартира?"
-              imageUrl={img2}
-            />
-            <FinanceCard
-              title="Думай и богатей"
-              imageUrl={img3}
-            />
-            <FinanceCard
-              title="Финансовая подушка"
-              imageUrl={img4}
-            />
-          </div>
+            <Header />
 
-          <AnalyticsSection />
-        </section>
+            <main className="main-container">
 
-        <Footer />
-      </main>
 
-      <style jsx>{`
+                <section className="content-section">
+                    <h1 className="main-title">ГЛАВНАЯ</h1>
+                    <div className="cards-grid">
+
+                        <a href={`/article/${article.id}`}>
+                            <FinanceCard
+                                title="Где хранить деньги"
+                                imageUrl={img}
+                            />
+                        </a>
+
+                        <FinanceCard
+                            title="Валюты мира"
+                            imageUrl={img1}
+
+                        />
+                        <FinanceCard
+                            title="Дом или квартира?"
+                            imageUrl={img2}
+                        />
+                        <FinanceCard
+                            title="Думай и богатей"
+                            imageUrl={img3}
+                        />
+                        <FinanceCard
+                            title="Финансовая подушка"
+                            imageUrl={img4}
+                        />
+                    </div>
+
+                    <AnalyticsSection />
+                </section>
+
+                <Footer />
+            </main>
+
+            <style jsx>{`
         .main-container {
           display: flex;
           flex-direction: column;
@@ -104,8 +106,8 @@ const MainPage = () => {
           }
         }
       `}</style>
-    </>
-  );
+        </>
+    );
 };
 
 export default MainPage;

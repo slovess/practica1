@@ -6,15 +6,18 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up()
     {
-        Schema::table('articles', function (Blueprint $table) {
-            $table->string('image')->nullable()->after('content');
+        Schema::create('articles', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->text('abstract');
+            $table->text('description');
+            $table->string('image');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
         });
     }
-
-    public function down()
+    public function down(): void
     {
-        Schema::table('articles', function (Blueprint $table) {
-            $table->dropColumn('image');
-        });
+        Schema::dropIfExists('articles');
     }
 };

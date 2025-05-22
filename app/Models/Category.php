@@ -20,17 +20,13 @@ class Category extends Model
         'user_id'
     ];
 
-    /**
-     * The possible types for the category.
-     */
+   
     public const TYPES = [
         'income' => 'Income',
         'expense' => 'Expense',
     ];
 
-    /**
-     * Get the user that owns the category.
-     */
+  
     public function user()
     {
         return $this->belongsTo(User::class);
