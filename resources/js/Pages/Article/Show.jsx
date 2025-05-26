@@ -1,10 +1,10 @@
 "use client";
-import { Header } from "../Components/Header";
-import { ArticleContent } from '../Components/ArticleContent';
-import { Footer } from '../Components/Footer';
+import { Header } from "../../Components/Header";
+import { ArticleContent } from '../../Components/ArticleContent';
+import { Footer } from '../../Components/Footer';
 import { Head } from '@inertiajs/react';
 
-const Article = ({ articles, meta }) => {
+const Article = ({ article, meta }) => {
     return (
         <>
             <Head>
@@ -18,7 +18,7 @@ const Article = ({ articles, meta }) => {
 
             <div className="layout">
                 <Header />
-                <ArticleContent articles={articles} />
+                <ArticleContent article={article} />
                 <Footer />
 
                 <style jsx>{`

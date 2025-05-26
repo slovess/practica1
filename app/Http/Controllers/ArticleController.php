@@ -8,16 +8,28 @@ use Inertia\Inertia;
 
 class ArticleController extends Controller
 {
-
     public function index()
     {
         $articles = Article::all();
 
-        return Inertia::render('Article', [
+        return Inertia::render('Article/Index', [ // Обратите внимание на путь
             'articles' => $articles,
             'meta' => [
                 'title' => 'Все статьи',
                 'description' => 'Последние опубликованные статьи'
+            ]
+        ]);
+    }
+
+    public function show($id)
+    {
+        $article = Article::findOrFail($id);
+
+        return Inertia::render('Article/Show', [
+            'article' => $article, // Проще передать весь объект
+            'meta' => [
+                'title' => $article->name,
+                'description' => $article->abstract
             ]
         ]);
     }
@@ -34,12 +46,6 @@ class ArticleController extends Controller
 
         return Response::json($article, 201);
     }
-
-    public function show($id)
-    {
-        return Response::json(Article::findOrFail($id));
-    }
-
     public function update(Request $request, $id)
     {
         $article = Article::findOrFail($id);

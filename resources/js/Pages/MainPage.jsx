@@ -1,17 +1,13 @@
 "use client";
 import React from 'react';
-import img from '../../../public/img/Città House.png'
-import img1 from '../../../public/img/Group 32.png'
-import img2 from '../../../public/img/Group 47.png'
-import img3 from '../../../public/img/Group 48.png'
-import img4 from '../../../public/img/Group 5.png'
+
 
 import { Header } from '../Components/Header';
 import { FinanceCard } from '../Components/FinanceCard';
 import { AnalyticsSection } from '../Components/AnalyticsSection';
 import { Footer } from '../Components/Footer';
 
-const MainPage = ( { article }) => {
+const MainPage = ({ articles }) => {
     return (
         <>
             <link
@@ -28,30 +24,17 @@ const MainPage = ( { article }) => {
                     <h1 className="main-title">ГЛАВНАЯ</h1>
                     <div className="cards-grid">
 
-                        <a href={`/article/${article.id}`}>
-                            <FinanceCard
-                                title="Где хранить деньги"
-                                imageUrl={img}
-                            />
-                        </a>
+                        {
+                            articles.map(element => (
+                                <a key={element.id} href={route('article.show', { id: element.id })}>
+                                    <FinanceCard
+                                        title={element.name}
+                                        imageUrl={element.image}
+                                    />
+                                </a>
+                            ))
+                        }
 
-                        <FinanceCard
-                            title="Валюты мира"
-                            imageUrl={img1}
-
-                        />
-                        <FinanceCard
-                            title="Дом или квартира?"
-                            imageUrl={img2}
-                        />
-                        <FinanceCard
-                            title="Думай и богатей"
-                            imageUrl={img3}
-                        />
-                        <FinanceCard
-                            title="Финансовая подушка"
-                            imageUrl={img4}
-                        />
                     </div>
 
                     <AnalyticsSection />

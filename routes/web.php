@@ -12,9 +12,9 @@ use Inertia\Inertia;
 Route::get('/article', function () {
     return Inertia::render('Article');
 });
-Route::get('/article/{id}', [ArticleController::class, 'show']);
 
 
+Route::get('/article/{id}', [ArticleController::class, 'show'])->name('article.show');
 
 Route::resource('profile', ProfileController::class)->only(['edit', 'update']);
 
@@ -33,9 +33,13 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::get('/main', function (){
-    return Inertia::render('MainPage');
-})->middleware(['auth', 'verified'])->name('main');
+
+
+
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/main', [MainController::class, 'index'])->name('main');
+});
 
 Route::get('/analytics', function (){
     return Inertia::render('AnalyticsDashboard');
