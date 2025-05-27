@@ -19,7 +19,8 @@ class Transaction extends Model
         'date',
         'description',
         'category_id',
-        'user_id'
+        'user_id',
+        'type',
     ];
 
     /**
@@ -30,6 +31,7 @@ class Transaction extends Model
     protected $casts = [
         'date' => 'date',
         'amount' => 'decimal:2',
+        'type' => 'string'
     ];
 
     /**
@@ -40,8 +42,6 @@ class Transaction extends Model
         return $this->belongsTo(Category::class);
     }
 
-
-
     /**
      * Get the user that owns the transaction.
      */
@@ -50,4 +50,9 @@ class Transaction extends Model
         return $this->belongsTo(User::class);
     }
 
+
+    public function scopeExpense($query)
+    {
+        return $query->where('type', 'expense');
+    }
 }

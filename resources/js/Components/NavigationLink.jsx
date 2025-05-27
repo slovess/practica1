@@ -1,8 +1,11 @@
+import { Link } from '@inertiajs/react';
+
 export const NavigationLinks = () => (
     <nav className="nav-links">
-      <a href="#" className="nav-link">главная</a>
-      <a href="#" className="nav-link">моя аналитика</a>
-      <a href="#" className="nav-link">вход|регистрация</a>
+        <Link href="/main" className="nav-link">главная</Link>
+        <Link href="/analytics" className="nav-link">моя аналитика</Link>
+        <Link href="/login" className="nav-link">вход|регистрация</Link>
+
       <style jsx="true">{`
         .nav-links {
           display: flex;
@@ -23,5 +26,4 @@ export const NavigationLinks = () => (
       `}</style>
     </nav>
   );
-  
-  
+

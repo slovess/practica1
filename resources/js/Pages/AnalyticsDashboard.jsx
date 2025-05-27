@@ -1,17 +1,24 @@
 "use client";
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import { Header } from '@/Components/Header';
-import TransactionForm from '@/Components/TransactionForm';
-import AnalyticsChart from '@/Components/AnalyticsChart';
-import TransactionHistory from '@/Components/TransactionHistory';
+import TransactionForm from '../Components/TransactionForm';
+import AnalyticsChart from '../Components/AnalyticsChart';
 
 const AnalyticsDashboard = () => {
+  const [transactions, setTransactions] = useState([]);
+
+  const handleDateChange = async (e) => {
+    const selected = e.target.value;
+    try {
+      const response = await axios.get(`/transactions?date=${selected}`);
+      setTransactions(response.data);
+    } catch (error) {
+      console.error('Error fetching transactions:', error);
+    }
+  };
+
   return (
-    <>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&display=swap"
-        rel="stylesheet"
-      />
     <div className="dashboard">
       <Header isFooter={false} />
       <main className="main-content">
@@ -20,11 +27,27 @@ const AnalyticsDashboard = () => {
           <TransactionForm />
           <AnalyticsChart />
         </section>
-        <TransactionHistory />
+        <div className="history-section">
+          <h2 className="history-title">История транзакций</h2>
+          <input type="date" onChange={handleDateChange} />
+          <div className="history-container">
+            {transactions.map((transaction) => (
+              <div key={transaction.id} className="day-group">
+                <h3 className="day-title">{new Date(transaction.date).toLocaleDateString()}</h3>
+                <div className="transaction-row">
+                  <span className="category">{transaction.category}</span>
+                  <span className={`amount ${transaction.type === 'income' ? 'income' : ''}`}>
+                    {transaction.amount}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </main>
       <Header isFooter={true} />
-      <style jsx>{`
-        .dashboard {
+      <style jsx="true">{`
+           .dashboard {
           display: flex;
           flex-direction: column;
           min-height: screen;
@@ -59,7 +82,6 @@ const AnalyticsDashboard = () => {
         }
       `}</style>
     </div>
-    </>
   );
 };
 

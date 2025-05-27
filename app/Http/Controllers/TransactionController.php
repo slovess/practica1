@@ -9,15 +9,26 @@ use App\Http\Middleware;
 
 class TransactionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return Response::json(auth()->user()->transactions);
+        $query = auth()->user()->transactions()->with('category');
+
+        if ($request->has('date')) {
+            $query->whereDate('date', $request->date);
+        }
+
+        if ($request->has('start_date') && $request->has('end_date')) {
+            $query->whereBetween('date', [$request->start_date, $request->end_date]);
+        }
+
+
+        return response()->json($query->get());
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'type' => 'required|string',
+            'type' => 'required|in:income,expense',
             'amount' => 'required|numeric',
             'description' => 'nullable|string',
             'date' => 'required|date',
@@ -61,5 +72,36 @@ class TransactionController extends Controller
         if ($transaction->user !== auth()->id()) {
             abort(403, 'Unauthorized');
         }
+    }
+
+    public function summary(Request $request)
+    {
+        $query = auth()->user()->transactions();
+
+        // Применяем фильтры
+        if ($request->has('start_date')) {
+            $query->whereDate('date', '>=', $request->start_date);
+        }
+
+        if ($request->has('end_date')) {
+            $query->whereDate('date', '<=', $request->end_date);
+        }
+
+        if ($request->has('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        if ($request->has('type')) {
+            $query->where('type', $request->type);
+        }
+
+        // Рассчитываем суммы доходов и расходов
+        $income = (clone $query)->where('type', 'income')->sum('amount');
+        $expenses = (clone $query)->where('type', 'expense')->sum('amount');
+
+        return response()->json([
+            'income' => $income,
+            'expenses' => abs($expenses), // Берем модуль для расходов
+        ]);
     }
 }

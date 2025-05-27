@@ -20,13 +20,13 @@ class Category extends Model
         'user_id'
     ];
 
-   
+
     public const TYPES = [
         'income' => 'Income',
         'expense' => 'Expense',
     ];
 
-  
+
     public function user()
     {
         return $this->belongsTo(User::class);

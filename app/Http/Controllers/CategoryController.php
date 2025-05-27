@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Response;
 
 class CategoryController extends Controller
 {
-    
+
 
     public function index()
     {
@@ -20,6 +20,8 @@ class CategoryController extends Controller
         $validated = $request->validate([
             'name' => 'required|string',
         ]);
+
+        $validated['user_id'] = auth()->id();
 
         $category = Category::create($validated);
 
