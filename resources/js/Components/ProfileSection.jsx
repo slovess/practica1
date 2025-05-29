@@ -1,38 +1,145 @@
-export const ProfileSection = ({ userInfo }) => {
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const ProfileSection = ({ userId }) => {
+    const [userInfo, setUserInfo] = useState({
+        fullName: '',
+        email: '',
+        birthDate: ''
+    });
+    const [isEditing, setIsEditing] = useState(false);
+    const [editForm, setEditForm] = useState({ ...userInfo });
+
+    // Загрузка данных пользователя
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8000/api/user-profiles/${userId}`);
+                setUserInfo(response.data);
+                setEditForm(response.data);
+            } catch (error) {
+                console.error('Ошибка загрузки данных:', error);
+            }
+        };
+
+        fetchUserData();
+    }, [userId]);
+
+    // Обновление данных пользователя
+    const handleUpdate = async () => {
+        try {
+            const response = await axios.put(
+                `http://localhost:8000/profile/${userId}`,
+                editForm
+            );
+
+            setUserInfo(response.data);
+            setIsEditing(false);
+        } catch (error) {
+            console.error('Ошибка обновления данных:', error);
+        }
+    };
+
+    // Удаление пользователя
+    const handleDelete = async () => {
+        try {
+            await axios.delete(`http://localhost:8000/profile/${userId}`);
+            alert('Пользователь удален');
+            // Здесь можно добавить перенаправление или другие действия
+        } catch (error) {
+            console.error('Ошибка удаления пользователя:', error);
+        }
+    };
+
+    const handleEditChange = (e) => {
+        const { name, value } = e.target;
+        setEditForm(prev => ({ ...prev, [name]: value }));
+    };
+
     return (
-      <>
-           <link
-        href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&display=swap"
-        rel="stylesheet"
-      />
-      <section className="profile-section">
-        <h1 className="section-title">ЛИЧНЫЙ КАБИНЕТ</h1>
-        <div className="profile-content">
-          <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/c8a2d15be390e29aa02b9672e51e40d6658dbd27"
-            alt="Profile"
-            className="profile-image"
-          />
-          <div className="info-container">
-            <div className="info-grid">
-              <div className="labels">
-                <p>ФИО:</p>
-                <p>Электронная почта:</p>
-                <p>Дата рождения:</p>
-              </div>
-              <div className="values">
-                <p>{userInfo.fullName}</p>
-                <p>{userInfo.email}</p>
-                <p>{userInfo.birthDate}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="action-buttons">
-          <button className="action-button">изменить</button>
-          <button className="action-button">удалить</button>
-        </div>
-  
+        <>
+            <link
+                href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&display=swap"
+                rel="stylesheet"
+            />
+            <section className="profile-section">
+                <h1 className="section-title">ЛИЧНЫЙ КАБИНЕТ</h1>
+                <div className="profile-content">
+                    <img
+                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/c8a2d15be390e29aa02b9672e51e40d6658dbd27"
+                        alt="Profile"
+                        className="profile-image"
+                    />
+                    {isEditing ? (
+                        <div className="info-container">
+                            <div className="info-grid">
+                                <div className="labels">
+                                    <p>ФИО:</p>
+                                    <p>Электронная почта:</p>
+                                    <p>Дата рождения:</p>
+                                </div>
+                                <div className="values">
+                                    <input
+                                        type="text"
+                                        name="full_name"
+                                        value={editForm.full_name}
+                                        onChange={handleEditChange}
+                                    />
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        value={editForm.email}
+                                        onChange={handleEditChange}
+                                    />
+                                    <input
+                                        type="date"
+                                        name="birth_date"
+                                        value={editForm.birth_date}
+                                        onChange={handleEditChange}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="info-container">
+                            <div className="info-grid">
+                                <div className="labels">
+                                    <p>ФИО:</p>
+                                    <p>Электронная почта:</p>
+                                    <p>Дата рождения:</p>
+                                </div>
+                                <div className="values">
+                                    <p>{userInfo.full_name}</p>
+                                    <p>{userInfo.email}</p>
+                                    <p>{userInfo.birth_date}</p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+                <div className="action-buttons">
+                    {isEditing ? (
+                        <>
+                            <button className="action-button" onClick={handleUpdate}>
+                                сохранить
+                            </button>
+                            <button className="action-button" onClick={() => setIsEditing(false)}>
+                                отмена
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <button className="action-button" onClick={() => setIsEditing(true)}>
+                                изменить
+                            </button>
+                            <button className="action-button" onClick={handleDelete}>
+                                удалить
+                            </button>
+                        </>
+                    )}
+                </div>
+            </section>
+
         <style jsx>{`
           .profile-section {
             display: flex;
@@ -76,7 +183,6 @@ export const ProfileSection = ({ userInfo }) => {
             flex-direction: column;
             gap: 20px;
             color: #0b56f9;
-            font-family: Inter;
             font-size: 20px;
           }
           .action-buttons {
@@ -91,7 +197,6 @@ export const ProfileSection = ({ userInfo }) => {
             border: 1px solid #0b56f9;
             background-color: #f5f5f5;
             color: #0b56f9;
-            font-family: Inter;
             font-size: 16px;
             cursor: pointer;
           }
@@ -119,8 +224,9 @@ export const ProfileSection = ({ userInfo }) => {
             }
           }
         `}</style>
-      </section>
-      </>
+
+        </>
     );
-  };
-  
+};
+
+export default ProfileSection;

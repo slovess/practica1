@@ -5,11 +5,12 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\ProfileController;
+
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\UserProfileController;
 
 Route::get('/article', function () {
     return Inertia::render('Article');
@@ -18,10 +19,10 @@ Route::get('/article', function () {
 
 Route::get('/article/{id}', [ArticleController::class, 'show'])->name('article.show');
 
-Route::resource('profile', ProfileController::class)->only(['edit', 'update']);
+Route::resource('profile', UserProfileController::class)->only(['edit', 'update']);
 
-Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+Route::get('/profile/edit', [UserProfileController::class, 'edit'])->name('profile.edit');
+Route::put('/profile/update', [UserProfileController::class, 'update'])->name('profile.update');
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),

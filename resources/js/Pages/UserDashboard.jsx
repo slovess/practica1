@@ -1,6 +1,6 @@
 "use client";
 import { Header} from '../Components/Header';
-import { ProfileSection } from '@/Components/ProfileSection';
+import ProfileSection from '@/Components/ProfileSection';
 import { Footer } from '../Components/Footer';
 
 
@@ -28,7 +28,7 @@ export default function UserDashboard() {
         margin-top:50px;
           background-color: #fff;
         }
-        
+
       `}</style>
     </main>
     </>

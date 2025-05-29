@@ -5,7 +5,11 @@ export const ArticleContent = ({ article }) => (
         }</h1>
         <div className="content-wrapper">
             <div className="highlight-container">
-                <div className="highlight-box" />
+                <div className="highlight-box">
+                    {
+                        <img src={article.image} alt="" className="w-full h-full"/>
+                    }
+                    </div>
             </div>
             <p className="intro-text">
                 {

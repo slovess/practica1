@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Header } from '@/Components/Header';
 import TransactionForm from '../Components/TransactionForm';
 import AnalyticsChart from '../Components/AnalyticsChart';
+import HistorySection from '@/Components/HistorySection';
 
 const AnalyticsDashboard = () => {
   const [transactions, setTransactions] = useState([]);
@@ -27,23 +28,7 @@ const AnalyticsDashboard = () => {
           <TransactionForm />
           <AnalyticsChart />
         </section>
-        <div className="history-section">
-          <h2 className="history-title">История транзакций</h2>
-          <input type="date" onChange={handleDateChange} />
-          <div className="history-container">
-            {transactions.map((transaction) => (
-              <div key={transaction.id} className="day-group">
-                <h3 className="day-title">{new Date(transaction.date).toLocaleDateString()}</h3>
-                <div className="transaction-row">
-                  <span className="category">{transaction.category}</span>
-                  <span className={`amount ${transaction.type === 'income' ? 'income' : ''}`}>
-                    {transaction.amount}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <HistorySection />
       </main>
       <Header isFooter={true} />
       <style jsx="true">{`

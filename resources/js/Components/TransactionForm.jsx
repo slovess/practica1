@@ -236,12 +236,15 @@ const TransactionForm = () => {
             <style jsx>{`
                 .form-container {
                     width: 442px;
-                    border-radius: 5px;
-                    border: 1px solid #062057;
-                    background-color: #fff;
-                    padding: 24px;
+                      border: 1px solid #e2e8f0;
+          background-color: #ffffff;
+          padding: 24px;
+          border-radius: 12px;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+          margin: 0 auto;
                 }
                 .form-title {
+                  text-align:center;
                     color: #0b56f9;
                     font-size: 20px;
                     font-weight: 700;
