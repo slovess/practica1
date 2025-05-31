@@ -1,36 +1,31 @@
 "use client";
-import { Header} from '../Components/Header';
+import { Header } from '../Components/Header';
 import ProfileSection from '@/Components/ProfileSection';
 import { Footer } from '../Components/Footer';
-
-
-
-const userInfo = {
-  fullName: "Гаврилович Софья Валентиновна",
-  email: "sofiagav55@gmail.com",
-  birthDate: "04.07.2006"
-};
+import { usePage } from '@inertiajs/react';
 
 export default function UserDashboard() {
-  return (
-    <>
-         <link
-        href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&display=swap"
-        rel="stylesheet"
-      />
-    <main className="dashboard">
-      <Header userName="Софья Г." />
-      <ProfileSection userInfo={userInfo} />
-      <Footer />
+    const { props } = usePage();
+    const user = props.auth.user; // Get authenticated user data
 
-      <style jsx>{`
-        .dashboard {
-        margin-top:50px;
-          background-color: #fff;
-        }
+    return (
+        <>
+            <link
+                href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&display=swap"
+                rel="stylesheet"
+            />
+            <main className="dashboard">
+                <Header userName={user?.name || "Пользователь"} />
+                <ProfileSection userId={user?.id} />
+                <Footer />
 
-      `}</style>
-    </main>
-    </>
-  );
+                <style jsx>{`
+                    .dashboard {
+                        margin-top: 50px;
+                        background-color: #fff;
+                    }
+                `}</style>
+            </main>
+        </>
+    );
 }

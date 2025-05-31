@@ -16,13 +16,32 @@ Route::get('/article', function () {
     return Inertia::render('Article');
 });
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
-Route::get('/article/{id}', [ArticleController::class, 'show'])->name('article.show');
+// Аутентификация
+Route::middleware('guest')->group(function () {
+    Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('login', [AuthenticatedSessionController::class, 'store']);
+});
 
-Route::resource('profile', UserProfileController::class)->only(['edit', 'update']);
+Route::middleware('auth')->group(function () {
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
-Route::get('/profile/edit', [UserProfileController::class, 'edit'])->name('profile.edit');
-Route::put('/profile/update', [UserProfileController::class, 'update'])->name('profile.update');
+    // Защищенные маршруты
+    Route::get('/profile', function () {
+        return Inertia::render('Profile/ProfileSection');
+    })->name('profile');
+});
+
+Route::get('/article/{userId}', [ArticleController::class, 'show'])->name('article.show');
+
+Route::resource('profile', UserProfileController::class);
+Route::prefix('profile')->group(function () {
+    Route::get('/{id}', [UserProfileController::class, 'show'])->name('profile.show');
+    Route::put('/{id}', [UserProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/{id}', [UserProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),

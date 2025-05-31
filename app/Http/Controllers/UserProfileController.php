@@ -15,34 +15,49 @@ class UserProfileController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'full_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:user_profiles',
-            'birth_date' => 'required|date',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:user_profiles'
         ]);
 
         return User::create($validated);
     }
 
-    public function show(User $userProfile)
+    public function show($id)
     {
-        return $userProfile;
+        try {
+            $user = User::findOrFail($id);
+            return response()->json($user);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Пользователь не найден'], 404);
+        }
     }
 
-    public function update(Request $request, User $userProfile)
+    public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'full_name' => 'sometimes|string|max:255',
-            'email' => 'sometimes|email|unique:user_profiles,email,'.$userProfile->id,
-            'birth_date' => 'sometimes|date',
-        ]);
+        try {
+            $user = User::findOrFail($id);
 
-        $userProfile->update($validated);
-        return $userProfile;
+            $validated = $request->validate([
+                'full_name' => 'sometimes|string|max:255',
+                'email' => 'sometimes|email|unique:user_profiles,email,'.$id,
+                'birth_date' => 'sometimes|date',
+            ]);
+
+            $user->update($validated);
+            return response()->json($user);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
     }
 
-    public function destroy(User $userProfile)
+    public function destroy($id)
     {
-        $userProfile->delete();
-        return response()->noContent();
+        try {
+            $user = User::findOrFail($id);
+            $user->delete();
+            return response()->json(['message' => 'Пользователь удален']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Ошибка удаления'], 500);
+        }
     }
 }
