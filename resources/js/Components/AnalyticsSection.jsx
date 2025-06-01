@@ -1,10 +1,10 @@
 import React from 'react';
-
+import { Link} from '@inertiajs/react';
 export const AnalyticsSection = () => {
   return (
     <section className="analytics-section">
       <div className="analytics-header">
-        <h2 className="analytics-title">Аналитика финансов</h2>
+   <Link href="/analytics" className="analytics-title"> Аналитика финансов </Link>
         <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg" className="play-icon">
           <path d="M19 9.5339L0.225405 18.5762L0.274812 0.389726L19 9.5339Z" fill="#0B56F9" />
         </svg>

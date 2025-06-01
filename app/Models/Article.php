@@ -14,6 +14,7 @@ class Article extends Model
         'abstract',
         'description',
         'image',
+        'user_id'
     
     ];
     public function admin()

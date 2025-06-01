@@ -42,9 +42,11 @@ class ArticleController extends Controller
             'description' => 'required|string',
         ]);
 
-        $article = Article::create($validated);
+        $validated['user_id'] = $request->user()->id;
 
-        return Response::json($article, 201);
+    $article = Article::create($validated);
+
+    return Response::json($article, 201);
     }
     public function update(Request $request, $id)
     {

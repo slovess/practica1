@@ -7,16 +7,10 @@ import AnalyticsChart from '../Components/AnalyticsChart';
 import HistorySection from '@/Components/HistorySection';
 
 const AnalyticsDashboard = () => {
-  const [transactions, setTransactions] = useState([]);
+  const [selectedDate, setSelectedDate] = useState('');
 
-  const handleDateChange = async (e) => {
-    const selected = e.target.value;
-    try {
-      const response = await axios.get(`/transactions?date=${selected}`);
-      setTransactions(response.data);
-    } catch (error) {
-      console.error('Error fetching transactions:', error);
-    }
+  const handleDateChange = (e) => {
+    setSelectedDate(e.target.value);
   };
 
   return (
@@ -28,22 +22,23 @@ const AnalyticsDashboard = () => {
           <TransactionForm />
           <AnalyticsChart />
         </section>
-        <HistorySection />
+        <HistorySection selectedDate={selectedDate} onDateChange={handleDateChange} />
       </main>
       <Header isFooter={true} />
-      <style jsx="true">{`
-           .dashboard {
+      <style jsx>{`
+        .dashboard {
           display: flex;
           flex-direction: column;
-          min-height: screen;
+          min-height: 100vh;
           background-color: #fff;
-          font-family: Roboto Condensed;
+          font-family: Roboto Condensed, sans-serif;
         }
         .main-content {
           display: flex;
           flex-direction: column;
           align-items: center;
           padding: 0 24px;
+          flex-grow: 1;
         }
         .dashboard-title {
           color: #0b56f9;
@@ -54,6 +49,7 @@ const AnalyticsDashboard = () => {
         .analytics-container {
           display: flex;
           gap: 32px;
+          margin-bottom: 40px;
         }
         @media (max-width: 991px) {
           .analytics-container {

@@ -17,6 +17,7 @@ Route::get('/article', function () {
 });
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Models\Article;
 
 // Аутентификация
 Route::middleware('guest')->group(function () {
@@ -32,6 +33,10 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('Profile/ProfileSection');
     })->name('profile');
 });
+
+
+Route::resource('article', ArticleController::class);
+Route::post('article', [ArticleController::class, 'store'])->name('article.store');
 
 Route::get('/article/{userId}', [ArticleController::class, 'show'])->name('article.show');
 
@@ -58,7 +63,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 Route::get('/transactions', [TransactionController::class, 'index']);
 Route::post('/transactions', [TransactionController::class, 'store']);
-Route::delete('/transactions/{transaction}', [TransactionController::class, 'destroy']);
+Route::put('/transactions/{id}', [TransactionController::class, 'update']);
+Route::delete('/transactions/{id}', [TransactionController::class, 'destroy']);
+
 
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

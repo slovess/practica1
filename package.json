@@ -23,6 +23,7 @@
     },
     "dependencies": {
         "lodash.debounce": "^4.0.8",
-        "recharts": "^2.15.3"
+        "recharts": "^2.15.3",
+        "ziggy-js": "^2.5.3"
     }
 }
