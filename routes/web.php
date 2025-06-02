@@ -11,13 +11,13 @@ use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserProfileController;
-
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 Route::get('/article', function () {
     return Inertia::render('Article');
 });
 
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Models\Article;
+Route::post('/articles', [ArticleController::class, 'store'])->name('article.store');
+
 
 // Аутентификация
 Route::middleware('guest')->group(function () {

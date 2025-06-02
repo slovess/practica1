@@ -6,8 +6,7 @@ const ProfileSection = () => {
     const { auth } = usePage().props;
     const [userInfo, setUserInfo] = useState({
         name: auth.user.name,
-        email: auth.user.email,
-        birth_date: auth.user.birth_date || ''
+        email: auth.user.email
     });
     const [isEditing, setIsEditing] = useState(false);
     const [editForm, setEditForm] = useState({ ...userInfo });
@@ -184,7 +183,7 @@ const ProfileSection = () => {
                                         onChange={handleEditChange}
                                         disabled={isLoading}
                                     />
-                             
+
                                 </div>
                             ) : (
                                 <div className="values">

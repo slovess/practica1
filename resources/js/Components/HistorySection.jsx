@@ -121,7 +121,7 @@ const HistorySection = ({ selectedDate, onDateChange }) => {
         </div>
       )}
 
-      {/* Модалка для редактирования */}
+      {}
       {editingTransaction && (
         <div className="modal">
           <form onSubmit={handleUpdate} className="edit-form">

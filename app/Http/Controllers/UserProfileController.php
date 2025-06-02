@@ -38,9 +38,9 @@ class UserProfileController extends Controller
             $user = User::findOrFail($id);
 
             $validated = $request->validate([
-                'full_name' => 'sometimes|string|max:255',
-                'email' => 'sometimes|email|unique:user_profiles,email,'.$id,
-                'birth_date' => 'sometimes|date',
+                'name' => 'required|string|max:255',
+               'email' => 'required|email|unique:users,email,'.$id,
+
             ]);
 
             $user->update($validated);

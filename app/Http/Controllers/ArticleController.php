@@ -40,6 +40,7 @@ class ArticleController extends Controller
             'name' => 'required|string',
             'abstract' => 'required|string',
             'description' => 'required|string',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $validated['user_id'] = $request->user()->id;

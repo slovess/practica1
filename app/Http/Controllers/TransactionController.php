@@ -69,7 +69,7 @@ class TransactionController extends Controller
 
     private function authorizeOwnership(Transaction $transaction)
     {
-        if ($transaction->user !== auth()->id()) {
+        if ($transaction->user_id !== auth()->id()) {
             abort(403, 'Unauthorized');
         }
     }
