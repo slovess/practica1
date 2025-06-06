@@ -8,8 +8,6 @@ use Illuminate\Support\Facades\Response;
 
 class CategoryController extends Controller
 {
-
-
     public function index()
     {
         return Response::json(Category::all());

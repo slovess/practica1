@@ -12,7 +12,7 @@ class ArticleController extends Controller
     {
         $articles = Article::all();
 
-        return Inertia::render('Article/Index', [ // Обратите внимание на путь
+        return Inertia::render('Article/Index', [
             'articles' => $articles,
             'meta' => [
                 'title' => 'Все статьи',
@@ -26,7 +26,7 @@ class ArticleController extends Controller
         $article = Article::findOrFail($id);
 
         return Inertia::render('Article/Show', [
-            'article' => $article, // Проще передать весь объект
+            'article' => $article, 
             'meta' => [
                 'title' => $article->name,
                 'description' => $article->abstract

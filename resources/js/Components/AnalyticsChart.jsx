@@ -264,7 +264,7 @@ const AnalyticsChart = () => {
                 )}
             </div>
 
-            <style jsx>{`
+            <style jsx>{`+
         .chart-container {
           width: 100%;
           max-width: 900px;

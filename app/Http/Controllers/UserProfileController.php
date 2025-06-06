@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -11,7 +10,6 @@ class UserProfileController extends Controller
     {
         return User::all();
     }
-
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -21,7 +19,6 @@ class UserProfileController extends Controller
 
         return User::create($validated);
     }
-
     public function show($id)
     {
         try {
@@ -31,7 +28,6 @@ class UserProfileController extends Controller
             return response()->json(['error' => 'Пользователь не найден'], 404);
         }
     }
-
     public function update(Request $request, $id)
     {
         try {
@@ -49,7 +45,6 @@ class UserProfileController extends Controller
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
-
     public function destroy($id)
     {
         try {

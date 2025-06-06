@@ -33,13 +33,13 @@ const MainPage = ({ articles }) => {
         formData.append('image', imageFile);
 
         router.post(route('article.store'), formData, {
-            forceFormData: true, // Важно, чтобы Inertia отправил formData как multipart/form-data
+            forceFormData: true,
             onSuccess: () => {
                 setNewArticle({ name: '', abstract: '', description: '' });
                 setImageFile(null);
             },
             onError: () => {
-                // можно обработать ошибки
+              
             }
         });
     };

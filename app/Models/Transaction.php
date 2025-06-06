@@ -8,12 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Transaction extends Model
 {
     use HasFactory;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'amount',
         'date',
@@ -23,34 +17,19 @@ class Transaction extends Model
         'type',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
     protected $casts = [
         'date' => 'date',
         'amount' => 'decimal:2',
         'type' => 'string'
     ];
-
-    /**
-     * Get the category associated with the transaction.
-     */
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
-
-    /**
-     * Get the user that owns the transaction.
-     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-
-
     public function scopeExpense($query)
     {
         return $query->where('type', 'expense');

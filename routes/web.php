@@ -5,21 +5,17 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ArticleController;
-
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+
 Route::get('/article', function () {
     return Inertia::render('Article');
 });
-
 Route::post('/articles', [ArticleController::class, 'store'])->name('article.store');
-
-
-// Аутентификация
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
@@ -34,10 +30,8 @@ Route::middleware('auth')->group(function () {
     })->name('profile');
 });
 
-
 Route::resource('article', ArticleController::class);
 Route::post('article', [ArticleController::class, 'store'])->name('article.store');
-
 Route::get('/article/{userId}', [ArticleController::class, 'show'])->name('article.show');
 
 Route::resource('profile', UserProfileController::class);
@@ -66,11 +60,7 @@ Route::post('/transactions', [TransactionController::class, 'store']);
 Route::put('/transactions/{id}', [TransactionController::class, 'update']);
 Route::delete('/transactions/{id}', [TransactionController::class, 'destroy']);
 
-
-
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/main', [MainController::class, 'index'])->name('main');
 });
@@ -93,10 +83,8 @@ Route::get('/transactions/summary', [TransactionController::class, 'summary'])
     ->middleware(['auth:sanctum']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    // Получение транзакций по дате
-    Route::get('/transactions', [TransactionController::class, 'index']);
 
-    // Или отдельный endpoint для фильтрации по дате
+    Route::get('/transactions', [TransactionController::class, 'index']);
     Route::get('/transactions/by-date/{date}', [TransactionController::class, 'getByDate']);
 });
 

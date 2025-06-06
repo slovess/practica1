@@ -56,7 +56,7 @@ export const ArticleContent = ({ article }) => (
           top: 5px;
         }
         .intro-text {
-          width: 698px;
+          width: 1208px;
           color: #083087;
           font-family: Roboto Condensed;
           font-size: 20px;

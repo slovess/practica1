@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -20,8 +19,6 @@ class TransactionController extends Controller
         if ($request->has('start_date') && $request->has('end_date')) {
             $query->whereBetween('date', [$request->start_date, $request->end_date]);
         }
-
-
         return response()->json($query->get());
     }
 
@@ -95,13 +92,12 @@ class TransactionController extends Controller
             $query->where('type', $request->type);
         }
 
-        // Рассчитываем суммы доходов и расходов
         $income = (clone $query)->where('type', 'income')->sum('amount');
         $expenses = (clone $query)->where('type', 'expense')->sum('amount');
 
         return response()->json([
             'income' => $income,
-            'expenses' => abs($expenses), // Берем модуль для расходов
+            'expenses' => abs($expenses),
         ]);
     }
 }

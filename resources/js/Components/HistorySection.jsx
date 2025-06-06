@@ -145,7 +145,7 @@ const HistorySection = ({ selectedDate, onDateChange }) => {
             <input
               name="date"
               type="date"
-              value={editingTransaction.date?.slice(0, 10)} // Формат YYYY-MM-DD
+              value={editingTransaction.date?.slice(0, 10)} 
               onChange={handleEditChange}
               required
             />
@@ -231,6 +231,10 @@ const HistorySection = ({ selectedDate, onDateChange }) => {
           border-bottom: 2px solid #0b56f9;
           padding-bottom: 6px;
         }
+          .no-transactions{
+          text-align: center;
+          color:blue;
+          }
         .transaction-row {
           display: flex;
           justify-content: space-between;
