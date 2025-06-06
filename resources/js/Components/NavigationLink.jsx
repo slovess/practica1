@@ -35,10 +35,7 @@ export const NavigationLinks = () => {
           border: none;
           cursor: pointer;
         }
-        @media (max-width: 640px) {
-          .nav-links {
-            display: none;
-          }
+       
         }
       `}</style>
     </nav>

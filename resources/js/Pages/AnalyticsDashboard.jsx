@@ -1,10 +1,10 @@
 "use client";
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Header } from '@/Components/Header';
 import TransactionForm from '../Components/TransactionForm';
 import AnalyticsChart from '../Components/AnalyticsChart';
 import HistorySection from '@/Components/HistorySection';
+import { Head } from '@inertiajs/react';
 
 const AnalyticsDashboard = () => {
   const [selectedDate, setSelectedDate] = useState('');
@@ -14,6 +14,8 @@ const AnalyticsDashboard = () => {
   };
 
   return (
+    <>
+    <Head title="МОЯ АНАЛИТИКА" />
     <div className="dashboard">
       <Header isFooter={false} />
       <main className="main-content">
@@ -63,6 +65,7 @@ const AnalyticsDashboard = () => {
         }
       `}</style>
     </div>
+    </>
   );
 };
 

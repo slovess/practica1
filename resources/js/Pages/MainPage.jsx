@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { usePage, router } from '@inertiajs/react';
+import { usePage, router, Head } from '@inertiajs/react';
 
 import { Header } from '../Components/Header';
 import { FinanceCard } from '../Components/FinanceCard';
@@ -46,6 +46,7 @@ const MainPage = ({ articles }) => {
 
     return (
         <>
+        <Head title="ГЛАВНАЯ" />
             <link
                 href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&display=swap"
                 rel="stylesheet"
@@ -200,7 +201,14 @@ const MainPage = ({ articles }) => {
                     align-self: stretch;
                 }
 
+
                 @media (max-width: 991px) {
+                .cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin-bottom: 50px;
+}
                     .cards-grid {
                         grid-template-columns: repeat(2, minmax(0, 1fr));
                     }

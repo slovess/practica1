@@ -13,7 +13,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Roboto', 'sans-serif'], // Google Fonts
+                sans: ['Roboto', 'sans-serif'], 
             },
         },
     },

@@ -2,14 +2,15 @@
 import { Header } from '../Components/Header';
 import ProfileSection from '@/Components/ProfileSection';
 import { Footer } from '../Components/Footer';
-import { usePage } from '@inertiajs/react';
+import { usePage, Head } from '@inertiajs/react';
 
 export default function UserDashboard() {
     const { props } = usePage();
-    const user = props.auth.user; // Get authenticated user data
+    const user = props.auth.user; 
 
     return (
         <>
+        <Head title="ПРОФИЛЬ" />
             <link
                 href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&display=swap"
                 rel="stylesheet"

@@ -1,35 +1,73 @@
-import Logo from './ApplicationLogo';
-
+import React, { useState } from 'react';
+import ApplicationLogo from '../Components/ApplicationLogo';
 import { NavigationLinks } from '../Components/NavigationLink';
-import { MenuButton } from './MenuButton';
+import { MenuButton } from '../Components/MenuButton';
+export const Footer = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
-export const Footer = () => (
-  <footer className="footer">
-    <Logo />
-    <NavigationLinks fontFamily="Roboto Condensed" />
-    <div className="mobile-menu">
-      <MenuButton />
-    </div>
-    <style jsx>{`
-      .footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px 20px;
-        margin-top: auto;
-      }
-      .mobile-menu {
-        display: none;
-      }
-      @media (max-width: 640px) {
+  return (
+    <header className="footer">
+      <ApplicationLogo />
+      <nav className="desktop-nav">
+        <NavigationLinks fontFamily="Roboto Condensed" />
+      </nav>
+      <div className="mobile-menu">
+        <MenuButton isOpen={isMenuOpen} onClick={toggleMenu} />
+        <div className={`mobile-nav ${isMenuOpen ? 'open' : ''}`}>
+          <NavigationLinks fontFamily="Roboto Condensed" />
+        </div>
+      </div>
+
+      <style jsx>{`
         .footer {
-          padding: 15px 10px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 15px 20px;
+          position: relative;
+          background: white;
+          z-index: 200;
         }
+
+        .desktop-nav {
+          display: flex;
+        }
+
         .mobile-menu {
-          display: block;
+          display: none;
         }
-      }
-    `}</style>
-  </footer>
-);
+
+        .mobile-nav {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          background: white;
+          padding: 0;
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.3s ease;
+        }
+
+        .mobile-nav.open {
+          padding: 20px;
+          max-height: 300px; /* или auto с JS, но это безопаснее */
+        }
+
+        @media (max-width: 640px) {
+          .desktop-nav {
+            display: none;
+          }
+
+          .mobile-menu {
+            display: block;
+          }
+        }
+      `}</style>
+    </header>
+  );
+};
